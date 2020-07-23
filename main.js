@@ -3,13 +3,13 @@ let app = new Vue({
   data: {
     newStrings: [],
     dayNumber: '',
-    newSaveRecord: {},
+    taskStorage: {},
     savedRecords: [],
     organaizerObj: {},
     organaizerShow: false,
     editElement: '',
     newElem: '',
-    array: [],
+    selectedTasks: [],
     date: new Date(),
     selectedDayIndex: 0,
     selectedYear: new Date().getFullYear(),
@@ -41,21 +41,21 @@ let app = new Vue({
       return result;
     },
     removeAffair(i) {
-      this.array.splice(i, 1);
-      this.newSaveRecord[this.dayNumber].splice(i, 1);
+      this.selectedTasks.splice(i, 1);
+      this.taskStorage[this.dayNumber].splice(i, 1);
       // console.log(this.array);
     },
     checkedEl(i) {
-      this.array[i].cssClass = 'checked';
+      this.selectedTasks[i].cssClass = 'checked';
     },
     editArray(i) {
-      this.array[i].showInput = true;
-      this.editElement = this.array[i].name;
-      this.array[i].name = '';
+      this.selectedTasks[i].showInput = true;
+      this.editElement = this.selectedTasks[i].name;
+      this.selectedTasks[i].name = '';
     },
     editReady(i) {
-      this.array[i].name = this.editElement;
-      this.array[i].showInput = false;
+      this.selectedTasks[i].name = this.editElement;
+      this.selectedTasks[i].showInput = false;
     },
     addElement() {
       let newTask = {
@@ -65,19 +65,20 @@ let app = new Vue({
       };
 
       if (this.newElem.length) {
-        this.array.push(newTask);
+        this.selectedTasks.push(newTask);
         this.newElem = '';
         this.dayNumber = `${this.selectedYear}/${this.monthes[this.selectMonth]}/${this.selectedDayIndex}`;
 
-        if (!this.newSaveRecord[this.dayNumber]) {
-          this.newSaveRecord[this.dayNumber] = [];
+        if (!this.taskStorage[this.dayNumber]) {
+          this.taskStorage[this.dayNumber] = [];
         }
-        this.newSaveRecord[this.dayNumber].push(newTask);
+        this.taskStorage[this.dayNumber].push(newTask);
+        // this.selectedTasks.push();
         // console.log(this.newSaveRecord);
       }
       // -- //
       // newSaveRecord[dayNumber] = [
-      // {'dayNumber': {}, 'dayNumber': {}}
+      // {newTask}, {newTask}
       // ]
       // -- //
     },
@@ -93,13 +94,12 @@ let app = new Vue({
       if (!this.organaizerObj[index]) {
         this.organaizerObj[index] = [];
       }
-      this.array = this.organaizerObj[index];
+      this.selectedTasks = this.organaizerObj[index];
       // this.array.push(this.organaizerObj[index]);
-      console.log(this.array);
+      console.log(this.selectedTasks);
 
       // -- //
-      // organaizerObj[index] = [[{}]]
-
+      // this.array = [ {this.organaizerObj[index]} ]
       // -- //
       this.selectedDayIndex = index;
     },

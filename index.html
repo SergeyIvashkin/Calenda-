@@ -59,7 +59,7 @@
           <input type="text" v-model="newElem" placeholder="Название..." />
           <span @click="addElement()" class="addBtn">Добавить</span>
         </div>
-        <ul id="myUL" v-for="(elem, i) in array">
+        <ul id="myUL" v-for="(elem, i) in selectedTasks">
           <li @click.right="editArray(i)" @dblclick="checkedEl(i)" :class="elem.cssClass">
             <input @blur="editReady(i)" type="text" v-model="editElement" v-show="elem.showInput" />
 
@@ -69,9 +69,15 @@
         </ul>
       </div>
       <div style="margin-top: 20px; width: 250px;">
-        <a @click="showTaskСhosenDay(i)" href="#" v-for="(key, i) in Object.keys(newSaveRecord) ">
-          на {{ key }} количесвтво дел {{ newSaveRecord[key].length }}
+        <a
+          v-if="taskStorage[key].length > 0"
+          @click="showTaskСhosenDay(i)"
+          href="#"
+          v-for="(key, i) in Object.keys(taskStorage) "
+        >
+          на {{ key }} количесвтво дел {{ taskStorage[key].length }}
         </a>
+        <p v-else>Никаких записей нет</p>
       </div>
     </div>
 
