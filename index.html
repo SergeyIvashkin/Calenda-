@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="css.css" />
+  </head>
+  <body>
+    <div id="app">
+      <br />
+
+      <br />
+
+      <table class="table">
+        <thead>
+          <tr>
+            <td>
+              <select @input="InstallYear">
+                <option v-for="(option, i) in range(2000 , 2030)" :value="option" :selected="selectedYear === option">
+                  {{ option }}
+                </option>
+              </select>
+            </td>
+            <td colspan="6">{{ monthes[selectMonth] }} {{ selectedYear }}</td>
+            <td>
+              <select @input="InstallMounth">
+                <option
+                  v-for="(month, index) in monthes"
+                  :value="index"
+                  :class="{colorRed:   monthes[selectMonth] === month}"
+                  :selected="monthes[selectMonth] === month"
+                >
+                  {{ month }}
+                </option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td v-for="d in day">{{d}}</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="week in calendar()">
+            <td
+              @click="showOrganaizer(day.index, day)"
+              v-for="(day, index) in week"
+              :class="{borderDay: day.current, colorRed: day.weekend, green: day.selectDay}"
+            >
+              {{ day.index }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="organaizer" v-show="organaizerShow">
+        <div id="myDIV" class="header">
+          <h2 style="margin: 5px;">Список дел</h2>
+          <input type="text" v-model="newElem" placeholder="Название..." />
+          <span @click="addElement()" class="addBtn">Добавить</span>
+        </div>
+        <ul id="myUL" v-for="(elem, i) in array">
+          <li @click.right="editArray(i)" @dblclick="checkedEl(i)" :class="elem.cssClass">
+            <input @blur="editReady(i)" type="text" v-model="editElement" v-show="elem.showInput" />
+
+            {{ elem.name }}
+            <a style="float: right;" @click="removeAffair(i)">+</a>
+          </li>
+        </ul>
+      </div>
+      <div style="margin-top: 20px; width: 250px;">
+        <a @click="showTaskСhosenDay(i)" href="#" v-for="(key, i) in Object.keys(newSaveRecord) ">
+          на {{ key }} количесвтво дел {{ newSaveRecord[key].length }}
+        </a>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="main.js"></script>
+  </body>
+</html>
