@@ -57,6 +57,20 @@ let app = new Vue({
       this.selectedTasks[i].name = this.editElement;
       this.selectedTasks[i].showInput = false;
     },
+    showOrganaizer(index, day) {
+      this.organaizerShow = true;
+      this.selectedDayIndex = index;
+      this.dayNumber = `${this.selectedYear}/${this.addZero(this.selectMonth + 1)}/${this.addZero(
+        this.selectedDayIndex
+      )}`;
+      if (!this.organaizerObj[this.dayNumber]) {
+        this.organaizerObj[this.dayNumber] = [];
+      }
+      this.selectedTasks = this.organaizerObj[this.dayNumber];
+      // -- //
+      // this.selectedTasks = [ {this.organaizerObj[index]} ]
+      // -- //
+    },
     addElement() {
       let newTask = {
         name: this.newElem,
@@ -67,42 +81,35 @@ let app = new Vue({
       if (this.newElem.length) {
         this.selectedTasks.push(newTask);
         this.newElem = '';
-        this.dayNumber = `${this.selectedYear}/${this.monthes[this.selectMonth]}/${this.selectedDayIndex}`;
 
         if (!this.taskStorage[this.dayNumber]) {
           this.taskStorage[this.dayNumber] = [];
         }
         this.taskStorage[this.dayNumber].push(newTask);
-        // this.selectedTasks.push();
-        // console.log(this.newSaveRecord);
+        console.log(this.taskStorage);
       }
       // -- //
-      // newSaveRecord[dayNumber] = [
+      // taskStorage[dayNumber] = [
       // {newTask}, {newTask}
       // ]
       // -- //
     },
-
+    addZero(str) {
+      str = String(str);
+      if (str.length == 1) {
+        return '0' + str;
+      } else return str;
+    },
     showTaskСhosenDay(key) {
-      // this.newSaveRecord[this.dayNumber] = newTask;
-      this.selectedYear = key;
-      this.selectMonth = key;
+      let str = key;
+      let Year = str.substr(0, 4);
+      let Month = str.substr(5, 2);
+      let Day = str.substr(-2);
+      this.selectedYear = Number(Year);
+      this.selectMonth = Number(Month - 1);
+      this.selectedDayIndex = Number(Day);
     },
 
-    showOrganaizer(index, day, i) {
-      this.organaizerShow = true;
-      if (!this.organaizerObj[index]) {
-        this.organaizerObj[index] = [];
-      }
-      this.selectedTasks = this.organaizerObj[index];
-      // this.array.push(this.organaizerObj[index]);
-      console.log(this.selectedTasks);
-
-      // -- //
-      // this.array = [ {this.organaizerObj[index]} ]
-      // -- //
-      this.selectedDayIndex = index;
-    },
     calendar: function () {
       var days = [];
       var week = 0;

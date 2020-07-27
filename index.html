@@ -17,7 +17,12 @@
           <tr>
             <td>
               <select @input="InstallYear">
-                <option v-for="(option, i) in range(2000 , 2030)" :value="option" :selected="selectedYear === option">
+                <option
+                  v-for="(option, i) in range(2000 , 2030)"
+                  :value="option"
+                  :selected="selectedYear === option"
+                  :class="{colorRed: selectedYear == option}"
+                >
                   {{ option }}
                 </option>
               </select>
@@ -28,8 +33,8 @@
                 <option
                   v-for="(month, index) in monthes"
                   :value="index"
-                  :class="{colorRed:   monthes[selectMonth] === month}"
                   :selected="monthes[selectMonth] === month"
+                  :class="{colorRed:   monthes[selectMonth] === month}"
                 >
                   {{ month }}
                 </option>
@@ -59,7 +64,7 @@
           <input type="text" v-model="newElem" placeholder="Название..." />
           <span @click="addElement()" class="addBtn">Добавить</span>
         </div>
-        <ul id="myUL" v-for="(elem, i) in selectedTasks">
+        <ul id="myUL" v-for="(elem, i) in  selectedTasks">
           <li @click.right="editArray(i)" @dblclick="checkedEl(i)" :class="elem.cssClass">
             <input @blur="editReady(i)" type="text" v-model="editElement" v-show="elem.showInput" />
 
@@ -69,15 +74,15 @@
         </ul>
       </div>
       <div style="margin-top: 20px; width: 250px;">
-        <a
+        <p
           v-if="taskStorage[key].length > 0"
-          @click="showTaskСhosenDay(i)"
+          @click="showTaskСhosenDay(key)"
           href="#"
           v-for="(key, i) in Object.keys(taskStorage) "
         >
           на {{ key }} количесвтво дел {{ taskStorage[key].length }}
-        </a>
-        <p v-else>Никаких записей нет</p>
+        </p>
+        <!-- <p v-else>Никаких записей нет</p> -->
       </div>
     </div>
 
